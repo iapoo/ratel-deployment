@@ -1,0 +1,19 @@
+FROM ubuntu:24.04
+
+RUN mkdir -p /works  \
+    && mkdir -p /opt \
+    && apt-get update && apt-get install -y locales \
+    && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8 \
+    && ln -snf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo Asia/Shanghai > /etc/timezone \
+    && apt-get install -y unzip build-essential git openjdk-21-jdk lsb-release curl gpg wget \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean \
+    && apt-get autoclean \
+    && du -sh /var/cache/apt/ \
+    && rm -rf /var/cache/apt/archives
+
+WORKDIR /works
+ENV LANG=en_US.UTF-8 
+ENV PATH="${PATH}"
+
+ENTRYPOINT [ "sh", "-c", "cd /works && bash" ]
