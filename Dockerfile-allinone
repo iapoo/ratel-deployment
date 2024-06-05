@@ -1,0 +1,16 @@
+FROM ratel-basic:1.0.0
+
+RUN curl -fsSL https://packages.redis.io/gpg | gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg \
+    && echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/redis.list \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends redis mysql-server \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean \
+    && apt-get autoclean \
+    && du -sh /var/cache/apt/ \
+    && rm -rf /var/cache/apt/archives
+
+COPY ./entrypoint.sh /opt/entrypoint.sh
+RUN chmod u+x /opt/entrypoint.sh
+
+ENTRYPOINT ["/opt/entrypoint.sh"]
