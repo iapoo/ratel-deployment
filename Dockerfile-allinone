@@ -1,16 +1,66 @@
 FROM ratel-basic:1.0.0
 
+ENV PROFILE=docker \
+    MINIO_ROOT_USER=admin \
+    MINIO_ROOT_PASSWORD=password \
+    JVM_OPTS=""   
+
 RUN curl -fsSL https://packages.redis.io/gpg | gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg \
     && echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | tee /etc/apt/sources.list.d/redis.list \
     && apt-get update \
-    && apt-get install -y --no-install-recommends redis mysql-server \
+    && apt-get install -y --no-install-recommends redis mysql-server nginx \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean \
     && apt-get autoclean \
     && du -sh /var/cache/apt/ \
     && rm -rf /var/cache/apt/archives
 
+# Resolve random error such as Check Sum failure.
+#ARG CACHEKEY=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+
+RUN mkdir -p /opt/ratel-system-server/config/ \
+    && mkdir -p /opt/ratel-system-server/scripts/ \ 
+    && mkdir -p /opt/ratel-rockie-server/config/ \ 
+    && mkdir -p /opt/ratel-rockie-server/scripts/ \ 
+    && mkdir -p /works/config/ \
+    && mkdir -p /opt/ratel-web/ \
+    && mkdir -p /opt/ratel-web/ \
+    && mkdir -p /opt/ratel-web/ \
+    && mkdir -p /opt/minio/data 
+
+WORKDIR /opt/minio
+
+COPY ./minio /opt/minio/minio
+COPY ./mc /opt/minio/mc
+
+RUN chmod +x /opt/minio/minio \
+    && chmod +x /opt/minio/mc 
+
+COPY ./scripts/ratel-system-server/create-schema.sql /opt/ratel-system-server/scripts/create-schema.sql
+COPY ./scripts/ratel-system-server/create-tables.sql /opt/ratel-system-server/scripts/create-tables.sql
+COPY ./scripts/ratel-rockie-server/create-tables.sql /opt/ratel-rockie-server/scripts/create-tables.sql
+
+COPY ./ratel-system-server-1.0.0.jar /opt/ratel-system-server/ratel-system-server-1.0.0.jar
+
+COPY ./ratel-rockie-server-1.0.0.jar /opt/ratel-rockie-server/ratel-rockie-server-1.0.0.jar
+
+COPY ./config/application-docker.properties /works/config/application-docker.properties
+
 COPY ./entrypoint.sh /opt/entrypoint.sh
+
+COPY ./nginx/default.conf /etc/nginx/conf.d/
+
+COPY ./dist/ /usr/share/nginx/html/
+
+RUN chmod -R 777 /usr/share/nginx/html/
+    
 RUN chmod u+x /opt/entrypoint.sh
+
+# For Spring boot
+VOLUME /tmp
+
+WORKDIR /works
+
+EXPOSE 8000 8080 8081 9000 9001
 
 ENTRYPOINT ["/opt/entrypoint.sh"]
