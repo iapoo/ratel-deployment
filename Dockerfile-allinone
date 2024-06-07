@@ -26,12 +26,13 @@ RUN mkdir -p /opt/ratel-system-server/config/ \
     && mkdir -p /opt/ratel-web/ \
     && mkdir -p /opt/ratel-web/ \
     && mkdir -p /opt/ratel-web/ \
-    && mkdir -p /opt/minio/data 
+    && mkdir -p /opt/minio/data \
+    && mkdir -p /opt/logs 
 
 WORKDIR /opt/minio
 
-COPY ./minio /opt/minio/minio
-COPY ./mc /opt/minio/mc
+COPY ./apps/minio /opt/minio/minio
+COPY ./apps/mc /opt/minio/mc
 
 RUN chmod +x /opt/minio/minio \
     && chmod +x /opt/minio/mc 
@@ -40,9 +41,9 @@ COPY ./scripts/ratel-system-server/create-schema.sql /opt/ratel-system-server/sc
 COPY ./scripts/ratel-system-server/create-tables.sql /opt/ratel-system-server/scripts/create-tables.sql
 COPY ./scripts/ratel-rockie-server/create-tables.sql /opt/ratel-rockie-server/scripts/create-tables.sql
 
-COPY ./ratel-system-server-1.0.0.jar /opt/ratel-system-server/ratel-system-server-1.0.0.jar
+COPY ./apps/ratel-system-server-1.0.0.jar /opt/ratel-system-server/ratel-system-server-1.0.0.jar
 
-COPY ./ratel-rockie-server-1.0.0.jar /opt/ratel-rockie-server/ratel-rockie-server-1.0.0.jar
+COPY ./apps/ratel-rockie-server-1.0.0.jar /opt/ratel-rockie-server/ratel-rockie-server-1.0.0.jar
 
 COPY ./config/application-docker.properties /works/config/application-docker.properties
 
@@ -52,12 +53,23 @@ COPY ./nginx/default.conf /etc/nginx/conf.d/
 
 COPY ./dist/ /usr/share/nginx/html/
 
-RUN chmod -R 777 /usr/share/nginx/html/
+RUN chmod -R a+r+w /usr/share/nginx/html/
     
 RUN chmod u+x /opt/entrypoint.sh
 
+#RUN groupadd -r mysql && useradd -r -g mysql mysql
+#RUN chown -R mysql:mysql /var/lib/mysql \
+#	&& chmod 1777 /var/lib/mysql
+
 # For Spring boot
 VOLUME /tmp
+VOLUME /opt/logs
+
+# For Mysql
+VOLUME /var/lib/mysql
+
+# For minio
+VOLUME /opt/minio/data
 
 WORKDIR /works
 

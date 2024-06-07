@@ -26,6 +26,8 @@ service redis-server start
 # start mysql
 if [ ! -f "/opt/first_run" ]
 then
+    chown -R mysql:mysql /var/lib/mysql 
+    chmod 1777 /var/lib/mysql
     usermod -d /var/lib/mysql/ mysql
 fi
 
@@ -52,10 +54,10 @@ sleep 2s
 
 
 # start ratel-system-server
-nohup java -Dspring.profiles.active=docker -jar /opt/ratel-system-server/ratel-system-server-1.0.0.jar &
+nohup java $JVM_OPTS -Dspring.profiles.active=$PROFILE -Djava.security.egd=file:/dev/./urandom -jar /opt/ratel-system-server/ratel-system-server-1.0.0.jar &
 
 # start ratel-rockie-server
-nohup java -Dspring.profiles.active=docker -jar /opt/ratel-rockie-server/ratel-rockie-server-1.0.0.jar &
+nohup java $JVM_OPTS -Dspring.profiles.active=$PROFILE -jar /opt/ratel-rockie-server/ratel-rockie-server-1.0.0.jar &
 
 
 touch /opt/first_run
