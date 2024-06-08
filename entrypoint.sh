@@ -29,6 +29,11 @@ then
     chown -R mysql:mysql /var/lib/mysql 
     chmod 1777 /var/lib/mysql
     usermod -d /var/lib/mysql/ mysql
+    #FIX ME, don't work for mysql yet
+    #groupadd -r mysql && useradd -r -g mysql mysql
+    #chown -R mysql:mysql ~/works/ratel/mysql 
+    #chmod 1777 ~/works/ratel/mysql
+
 fi
 
 service mysql start
