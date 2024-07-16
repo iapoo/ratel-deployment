@@ -7,6 +7,7 @@ UMI_ENV=prod npm run build
 cd ..
 echo "Build docker image ======================="
 cd ratel-deployment/
+git pull
 ./prepare.sh
 docker build -t ratel-allinone:1.0.0 -f Dockerfile-allinone .
 docker stop ratel
