@@ -39,7 +39,7 @@ cp -r ./../ratel-server/config/* config/
 echo "==============================================="
 echo "Prepare web content"
 rm -rf dist/*
-cp -r ./../ratel-web/dist/* dist/
+cp -r ./../ratel-web/app/dist/* dist/
 
 #Prepare database scripts
 echo "==============================================="
