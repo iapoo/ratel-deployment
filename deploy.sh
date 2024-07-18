@@ -1,5 +1,9 @@
 #!/bin/bash
 
+echo "Build ratel-server ======================="
+cd ./../ratel-server/
+git pull
+mvn package -DskipTests
 echo "Build ratel-web ======================="
 cd ./../ratel-web/
 git pull
