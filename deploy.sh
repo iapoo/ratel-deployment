@@ -6,7 +6,10 @@ git pull
 mvn package -DskipTests
 echo "Build ratel-web ======================="
 cd ./../ratel-web/
+git restore package.json
+git restart package-lock.json
 git pull
+npm install
 UMI_ENV=prod npm run build
 cd ..
 echo "Build docker image ======================="
