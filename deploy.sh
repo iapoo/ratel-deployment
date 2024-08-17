@@ -9,8 +9,9 @@ cd ./../ratel-web/
 git restore package.json
 git restart package-lock.json
 git pull
+nvm use 20
 npm install
-UMI_ENV=prod npm run build
+npm run prod:build
 cd ..
 echo "Build docker image ======================="
 cd ratel-deployment/
