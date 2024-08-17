@@ -9,7 +9,7 @@ cd ./../ratel-web/
 git restore package.json
 git restore package-lock.json
 git pull
-nvm use 20
+#nvm use 20
 npm install
 npm run prod:build
 cd ..
