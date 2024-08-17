@@ -7,7 +7,7 @@ mvn package -DskipTests
 echo "Build ratel-web ======================="
 cd ./../ratel-web/
 git restore package.json
-git restart package-lock.json
+git restore package-lock.json
 git pull
 nvm use 20
 npm install
