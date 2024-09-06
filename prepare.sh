@@ -1,4 +1,12 @@
 #!/bin/bash
+if [ $# -lt 1 ]; then
+    echo "Usage: prepare.sh version"
+    echo "    example: prepare.sh  1.0.0"
+    exit 1
+fi
+
+
+echo "Preparement is started with version $1 "
 
 #Prepare directories
 echo "==============================================="
@@ -26,8 +34,8 @@ fi
 #Prepare ratel applications
 echo "==============================================="
 echo "Prepare ratel applications"
-cp -f ./../ratel-server/ratel-system-server/target/ratel-system-server-1.0.0.jar apps/
-cp -f ./../ratel-server/ratel-rockie-server/target/ratel-rockie-server-1.0.0.jar apps/
+cp -f ./../ratel-server/ratel-system-server/target/ratel-system-server-$1.jar apps/
+cp -f ./../ratel-server/ratel-rockie-server/target/ratel-rockie-server-$1.jar apps/
 
 #Prepare config
 echo "==============================================="
