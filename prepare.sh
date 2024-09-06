@@ -1,12 +1,13 @@
 #!/bin/bash
-if [ $# -lt 1 ]; then
-    echo "Usage: prepare.sh version"
-    echo "    example: prepare.sh  1.0.0"
+if [ $# -lt 2 ]; then
+    echo "Usage: prepare.sh env version"
+    echo "    example: prepare.sh prod  1.0.0"
+    echo "    env can be prod, local, docker, electron"
     exit 1
 fi
 
 
-echo "Preparement is started with version $1 "
+echo "Preparement is started with env=$1 version=$2  "
 
 #Prepare directories
 echo "==============================================="
@@ -34,8 +35,8 @@ fi
 #Prepare ratel applications
 echo "==============================================="
 echo "Prepare ratel applications"
-cp -f ./../ratel-server/ratel-system-server/target/ratel-system-server-$1.jar apps/
-cp -f ./../ratel-server/ratel-rockie-server/target/ratel-rockie-server-$1.jar apps/
+cp -f ./../ratel-server/ratel-system-server/target/ratel-system-server-$2.jar apps/
+cp -f ./../ratel-server/ratel-rockie-server/target/ratel-rockie-server-$2.jar apps/
 
 #Prepare config
 echo "==============================================="
