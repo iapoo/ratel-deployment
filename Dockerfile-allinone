@@ -1,5 +1,10 @@
 FROM ratel-basic:1.0.0
 
+ARG RATEL_VERSION
+ENV RATEL_VERSION=${RATEL_VERSION}
+
+RUN echo "Docker image build is started with version: " $RATEL_VERSION
+
 ENV PROFILE=docker \
     MINIO_ROOT_USER=admin \
     MINIO_ROOT_PASSWORD=password \
@@ -41,9 +46,9 @@ COPY ./scripts/ratel-system-server/create-schema.sql /opt/ratel-system-server/sc
 COPY ./scripts/ratel-system-server/create-tables.sql /opt/ratel-system-server/scripts/create-tables.sql
 COPY ./scripts/ratel-rockie-server/create-tables.sql /opt/ratel-rockie-server/scripts/create-tables.sql
 
-COPY ./apps/ratel-system-server-1.0.0.jar /opt/ratel-system-server/ratel-system-server-1.0.0.jar
+COPY ./apps/ratel-system-server-$RATEL_VERSION.jar /opt/ratel-system-server/ratel-system-server-$RATEL_VERSION.jar
 
-COPY ./apps/ratel-rockie-server-1.0.0.jar /opt/ratel-rockie-server/ratel-rockie-server-1.0.0.jar
+COPY ./apps/ratel-rockie-server-$RATEL_VERSION.jar /opt/ratel-rockie-server/ratel-rockie-server-$RATEL_VERSION.jar
 
 COPY ./config/application-docker.properties /works/config/application-docker.properties
 
