@@ -35,24 +35,24 @@ docker build -t ratel-basic:1.0.0 -f Dockerfile-basic .
 
 #### Build all-in-one image
 
-docker build -t ratel-allinone:1.0.0 -f Dockerfile-allinone .
+docker build -t ratel-allinone:0.1.0 -f Dockerfile-allinone --build-arg RATEL_VERSION=0.1.0 .
 
-#### Run docker container.
+#### Run docker container
 
 docker run -d --name ratel -p 3306:3306 -p 6379:6379 -p 8000:8000 -p 8080:8080 -p 8081:8081 \
-    -p 9000:9000 -p 9001:9001 ratel-allinone:1.0.0
+    -p 9000:9000 -p 9001:9001 ratel-allinone:0.1.0
 
-#### Run docker container by mount data(logs & minio) locally.
+#### Run docker container by mount data(logs & minio) locally
 
 docker run -d --name ratel -p 3306:3306 -p 6379:6379 -p 8000:8000 -p 8080:8080 -p 8081:8081 \
     -p 9000:9000 -p 9001:9001 -v ~/works/ratel/logs:/opt/logs -v ~/works/ratel/minio:/opt/minio/data \
-    ratel-allinone:1.0.0
+    ratel-allinone:0.1.0
 
 #### Run docker container by mount data(logs & minio & mysql) locally. It may fail
 
 docker run -d --name ratel -p 3306:3306 -p 6379:6379 -p 8000:8000 -p 8080:8080 -p 8081:8081 \
     -p 9000:9000 -p 9001:9001 -v ~/works/ratel/logs:/opt/logs -v ~/works/ratel/minio:/opt/minio/data \
-    -v ~/works/ratel/mysql:/var/lib/mysql  ratel-allinone:1.0.0
+    -v ~/works/ratel/mysql:/var/lib/mysql  ratel-allinone:0.1.0
 
 #### Tuning
 
