@@ -59,10 +59,10 @@ sleep 2s
 
 
 # start ratel-system-server
-nohup java $JVM_OPTS -Dspring.profiles.active=$PROFILE -Djava.security.egd=file:/dev/./urandom -jar /opt/ratel-system-server/ratel-system-server-1.0.0.jar &
+nohup java $JVM_OPTS -Dspring.profiles.active=$PROFILE -Djava.security.egd=file:/dev/./urandom -jar /opt/ratel-system-server/ratel-system-server-$RATEL_VERSION.jar &
 
 # start ratel-rockie-server
-nohup java $JVM_OPTS -Dspring.profiles.active=$PROFILE -jar /opt/ratel-rockie-server/ratel-rockie-server-1.0.0.jar &
+nohup java $JVM_OPTS -Dspring.profiles.active=$PROFILE -jar /opt/ratel-rockie-server/ratel-rockie-server-$RATEL_VERSION.jar &
 
 
 touch /opt/first_run
