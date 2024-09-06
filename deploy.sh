@@ -28,7 +28,7 @@ echo "Build docker image ======================="
 cd ratel-deployment/
 git checkout $1
 git pull
-./prepare.sh
+./prepare.sh $1
 docker build -t ratel-allinone:1.0.0 -f Dockerfile-allinone .
 docker stop ratel
 docker rm ratel
