@@ -6,9 +6,9 @@ Ratel Deployment is deployment tools of Ratel. Ratel is general diagram editor. 
 
 ## Try
 
-### Try online demo
+### Visit online site
 
-Try onelin demo.
+Visit onelin site: <https://www.ivipa.com>.
 
 ### Try all-in-one docker image locally
 
